@@ -4,5 +4,5 @@ part 'students_db_model.g.dart';
 class StudentModel {
   Id? id = Isar.autoIncrement;
   final String? studentName;
-  StudentModel({required this.id, required this.studentName});
+  StudentModel({ this.id, required this.studentName});
 }

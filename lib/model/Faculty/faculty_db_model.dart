@@ -6,5 +6,5 @@ part 'faculty_db_model.g.dart';
 class FacultyModel {
   Id? id = Isar.autoIncrement;
   final String? facultyName;
-  FacultyModel({required this.id, required this.facultyName});
+  FacultyModel({this.id, required this.facultyName});
 }

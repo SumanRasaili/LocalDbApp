@@ -1,9 +1,24 @@
+import 'package:firestoreapp/model/Faculty/faculty_db_model.dart';
+import 'package:firestoreapp/model/Students/students_db_model.dart';
+import 'package:firestoreapp/model/Subjects/subject_db_model.dart';
+import 'package:firestoreapp/model/Teacher/teacher_db_model.dart';
 import 'package:firestoreapp/screens/splash_page.dart';
 import 'package:firestoreapp/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
 
-void main() {
+late Isar isar;
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final dir = await getApplicationDocumentsDirectory();
+  isar = await Isar.open([
+    FacultyModelSchema,
+    SubjectModelSchema,
+    StudentModelSchema,
+    TeacherModelSchema
+  ], directory: dir.path, inspector: true);
   runApp(const ProviderScope(child: MyApp()));
 }
 

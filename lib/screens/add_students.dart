@@ -1,4 +1,7 @@
 import 'package:firestoreapp/components/custom_textfield.dart';
+import 'package:firestoreapp/model/Students/students_db_model.dart';
+import 'package:firestoreapp/model/Students/students_services.dart';
+import 'package:firestoreapp/utils/validators.dart';
 import 'package:firestoreapp/widgets/buttons_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -10,33 +13,44 @@ class AddStudentsPage extends StatefulWidget {
 }
 
 class _AddStudentsPageState extends State<AddStudentsPage> {
-   TextEditingController studController = TextEditingController();
+  TextEditingController studController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add Students"),
       ),
-       body: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(23.0),
-          child: Column(
-            children: [
-              CustomTextField(
-                labelText: "Students Name",
-                controller: studController,
-                isRequired: true,
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              DrawerButtons(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                name: "Save Students",
-              ),
-            ],
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                CustomTextField(
+
+                  validator: (input)=>Validators.isRequired(input),
+                  labelText: "Students Name",
+                  controller: studController,
+                  isRequired: true,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                DrawerButtons(
+                  onPressed: ()async {
+                    if (_formKey.currentState!.validate()) {
+                   await   StudentsServices.addStudents(
+                          sm: StudentModel(
+                        studentName: studController.text,
+                      )).then((value) => Navigator.pop(context));
+                    }
+                  },
+                  name: "Save Students",
+                ),
+              ],
+            ),
           ),
         ),
       ),

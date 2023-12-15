@@ -3,6 +3,7 @@ import 'package:firestoreapp/screens/add_faculty.dart';
 import 'package:firestoreapp/screens/add_students.dart';
 import 'package:firestoreapp/screens/add_subjects.dart';
 import 'package:firestoreapp/screens/add_teacher_screen.dart';
+import 'package:firestoreapp/screens/all_faculty_screen.dart';
 import 'package:firestoreapp/widgets/buttons_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -74,6 +75,18 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                             MaterialPageRoute(
                               builder: (BuildContext context) {
                                 return const AddStudentsPage();
+                              },
+                            ),
+                          );
+                        }),
+                    DrawerButtons(
+                        name: "All Faculties",
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return const AllFacultyPage();
                               },
                             ),
                           );
