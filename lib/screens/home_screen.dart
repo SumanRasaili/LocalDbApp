@@ -1,10 +1,6 @@
-import 'package:firestoreapp/api/user_api.dart';
-import 'package:firestoreapp/screens/add_faculty.dart';
-import 'package:firestoreapp/screens/add_students.dart';
-import 'package:firestoreapp/screens/add_subjects.dart';
-import 'package:firestoreapp/screens/add_teacher_screen.dart';
-import 'package:firestoreapp/screens/all_faculty_screen.dart';
-import 'package:firestoreapp/widgets/buttons_widget.dart';
+import 'package:firestoreapp/model/Faculty/faculty_db_model.dart';
+import 'package:firestoreapp/model/Faculty/faculty_services.dart';
+import 'package:firestoreapp/widgets/home_drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,109 +14,48 @@ class HomeScreen extends ConsumerStatefulWidget {
 class HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final data = ref.watch(userDataprov);
-    return RefreshIndicator(
-        onRefresh: () async {
-          ref.read(apiProvider).getUsers();
-        },
-        child: Scaffold(
-          drawer: Drawer(
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DrawerButtons(
-                        name: "Add Faculty",
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return const AddFacultyPage();
-                              },
-                            ),
-                          );
-                        }),
-                    DrawerButtons(
-                        name: "Add Subjects",
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return const AddSubjectsPage();
-                              },
-                            ),
-                          );
-                        }),
-                    DrawerButtons(
-                        name: "Add Teacher",
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return const AddTeachersPage();
-                              },
-                            ),
-                          );
-                        }),
-                    DrawerButtons(
-                        name: "Add Students",
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return const AddStudentsPage();
-                              },
-                            ),
-                          );
-                        }),
-                    DrawerButtons(
-                        name: "All Faculties",
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return const AllFacultyPage();
-                              },
-                            ),
-                          );
-                        }),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          appBar: AppBar(
-            title: const Text(
-              "HomeScreen",
-              style: TextStyle(color: Colors.blue),
-            ),
-            centerTitle: true,
-          ),
-          body: data.when(
-            data: (data) {
-              return ListView.builder(
-                itemCount: data?.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(data?[index].name ?? "-"),
+    final data = ref.watch(facapiProvider);
+    return Scaffold(
+      drawer: const HomeDrawerWidget(),
+      appBar: AppBar(
+        title: const Text(
+          "HomeScreen",
+          style: TextStyle(color: Colors.blue),
+        ),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: StreamBuilder<List<FacultyModel>>(
+          builder: (context, snapshot) {
+            return GridView.builder(
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    childAspectRatio: 3 / 2,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20),
+                itemCount: snapshot.data?.length,
+                itemBuilder: (BuildContext ctx, index) {
+                  return InkWell(
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: Colors.amber,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Text(
+                        "${snapshot.data?[index].facultyName}",
+                        style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Poppins"),
+                      ),
+                    ),
                   );
-                },
-              );
-            },
-            error: (error, stackTrace) {
-              return Text(error.toString());
-            },
-            loading: () {
-              return const Center(child: CircularProgressIndicator());
-            },
-          ),
-        ));
+                });
+          },
+          stream: data.getStream(),
+        ),
+      ),
+    );
   }
 }

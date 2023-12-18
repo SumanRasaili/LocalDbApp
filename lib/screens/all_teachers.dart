@@ -1,25 +1,26 @@
-import 'package:firestoreapp/model/Faculty/faculty_db_model.dart';
-import 'package:firestoreapp/model/Faculty/faculty_services.dart';
+import 'package:firestoreapp/model/Teacher/teacher_db_model.dart';
+import 'package:firestoreapp/model/Teacher/teacher_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AllFacultyPage extends ConsumerStatefulWidget {
-  const AllFacultyPage({super.key});
+class AllTeachersPage extends ConsumerStatefulWidget {
+  const AllTeachersPage({super.key});
 
   @override
-  ConsumerState<AllFacultyPage> createState() => _AllFacultyPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _AllTeachersPageState();
 }
 
-class _AllFacultyPageState extends ConsumerState<AllFacultyPage> {
+class _AllTeachersPageState extends ConsumerState<AllTeachersPage> {
   @override
   Widget build(BuildContext context) {
-    final data = ref.watch(facapiProvider);
+    final data = ref.watch(teachProv);
     return Scaffold(
         appBar: AppBar(
-          title: const Text("All Faculties Page"),
+          title: const Text("All Teachers Page"),
         ),
-        body: StreamBuilder<List<FacultyModel>>(
-            stream: data.getStream(),
+        body: StreamBuilder<List<TeacherModel>>(
+            stream: data.listenTeachers(),
             builder: (context, snapshot) {
               return ListView.builder(
                 shrinkWrap: true,
@@ -30,12 +31,12 @@ class _AllFacultyPageState extends ConsumerState<AllFacultyPage> {
                         const EdgeInsets.only(left: 23.0, right: 23, top: 10),
                     child: Card(
                       child: ListTile(
-                        title: Text(snapshot.data?[index].facultyName ?? "-"),
+                        title: Text(snapshot.data?[index].teacherName ?? "-"),
                         trailing: IconButton(
                             onPressed: () async {
                               await ref
-                                  .read(facapiProvider)
-                                  .deleteFaculty(model: snapshot.data![index]);
+                                  .read(teachProv)
+                                  .deleteteach(model: snapshot.data![index]);
                               // await ref.read(facapiProvider).getAllFaculties();
                             },
                             icon: const Icon(
