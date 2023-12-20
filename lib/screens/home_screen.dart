@@ -1,5 +1,6 @@
 import 'package:firestoreapp/model/Faculty/faculty_db_model.dart';
 import 'package:firestoreapp/model/Faculty/faculty_services.dart';
+import 'package:firestoreapp/screens/detail_page.dart';
 import 'package:firestoreapp/widgets/home_drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,6 +38,15 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                 itemCount: snapshot.data?.length,
                 itemBuilder: (BuildContext ctx, index) {
                   return InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return const DetailPage();
+                          },
+                        ),
+                      );
+                    },
                     child: Container(
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
