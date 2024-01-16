@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 23, vertical: 200),
+        padding: const EdgeInsets.symmetric(horizontal: 23, vertical: 150),
         child: Column(
           children: [
             CustomTextField(

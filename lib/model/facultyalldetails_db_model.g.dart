@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'faculty_db_model.dart';
+part of 'facultyalldetails_db_model.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,13 +9,14 @@ part of 'faculty_db_model.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetFacultyModelCollection on Isar {
-  IsarCollection<FacultyModel> get facultyModels => this.collection();
+extension GetFacultyAllDetailModelCollection on Isar {
+  IsarCollection<FacultyAllDetailModel> get facultyAllDetailModels =>
+      this.collection();
 }
 
-const FacultyModelSchema = CollectionSchema(
-  name: r'FacultyModel',
-  id: -6302961449486729081,
+const FacultyAllDetailModelSchema = CollectionSchema(
+  name: r'FacultyAllDetailModel',
+  id: -277489808276432077,
   properties: {
     r'facultyName': PropertySchema(
       id: 0,
@@ -23,36 +24,29 @@ const FacultyModelSchema = CollectionSchema(
       type: IsarType.string,
     )
   },
-  estimateSize: _facultyModelEstimateSize,
-  serialize: _facultyModelSerialize,
-  deserialize: _facultyModelDeserialize,
-  deserializeProp: _facultyModelDeserializeProp,
+  estimateSize: _facultyAllDetailModelEstimateSize,
+  serialize: _facultyAllDetailModelSerialize,
+  deserialize: _facultyAllDetailModelDeserialize,
+  deserializeProp: _facultyAllDetailModelDeserializeProp,
   idName: r'id',
-  indexes: {
-    r'facultyName': IndexSchema(
-      id: -2783939385663226620,
-      name: r'facultyName',
-      unique: true,
-      replace: false,
-      properties: [
-        IndexPropertySchema(
-          name: r'facultyName',
-          type: IndexType.hash,
-          caseSensitive: true,
-        )
-      ],
+  indexes: {},
+  links: {
+    r'subjects': LinkSchema(
+      id: -17335742382558870,
+      name: r'subjects',
+      target: r'SubjectModel',
+      single: false,
     )
   },
-  links: {},
   embeddedSchemas: {},
-  getId: _facultyModelGetId,
-  getLinks: _facultyModelGetLinks,
-  attach: _facultyModelAttach,
+  getId: _facultyAllDetailModelGetId,
+  getLinks: _facultyAllDetailModelGetLinks,
+  attach: _facultyAllDetailModelAttach,
   version: '3.1.0+1',
 );
 
-int _facultyModelEstimateSize(
-  FacultyModel object,
+int _facultyAllDetailModelEstimateSize(
+  FacultyAllDetailModel object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -66,8 +60,8 @@ int _facultyModelEstimateSize(
   return bytesCount;
 }
 
-void _facultyModelSerialize(
-  FacultyModel object,
+void _facultyAllDetailModelSerialize(
+  FacultyAllDetailModel object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -75,20 +69,20 @@ void _facultyModelSerialize(
   writer.writeString(offsets[0], object.facultyName);
 }
 
-FacultyModel _facultyModelDeserialize(
+FacultyAllDetailModel _facultyAllDetailModelDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = FacultyModel(
+  final object = FacultyAllDetailModel(
     facultyName: reader.readStringOrNull(offsets[0]),
     id: id,
   );
   return object;
 }
 
-P _facultyModelDeserializeProp<P>(
+P _facultyAllDetailModelDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -102,87 +96,36 @@ P _facultyModelDeserializeProp<P>(
   }
 }
 
-Id _facultyModelGetId(FacultyModel object) {
+Id _facultyAllDetailModelGetId(FacultyAllDetailModel object) {
   return object.id ?? Isar.autoIncrement;
 }
 
-List<IsarLinkBase<dynamic>> _facultyModelGetLinks(FacultyModel object) {
-  return [];
+List<IsarLinkBase<dynamic>> _facultyAllDetailModelGetLinks(
+    FacultyAllDetailModel object) {
+  return [object.subjects];
 }
 
-void _facultyModelAttach(
-    IsarCollection<dynamic> col, Id id, FacultyModel object) {
+void _facultyAllDetailModelAttach(
+    IsarCollection<dynamic> col, Id id, FacultyAllDetailModel object) {
   object.id = id;
+  object.subjects
+      .attach(col, col.isar.collection<SubjectModel>(), r'subjects', id);
 }
 
-extension FacultyModelByIndex on IsarCollection<FacultyModel> {
-  Future<FacultyModel?> getByFacultyName(String? facultyName) {
-    return getByIndex(r'facultyName', [facultyName]);
-  }
-
-  FacultyModel? getByFacultyNameSync(String? facultyName) {
-    return getByIndexSync(r'facultyName', [facultyName]);
-  }
-
-  Future<bool> deleteByFacultyName(String? facultyName) {
-    return deleteByIndex(r'facultyName', [facultyName]);
-  }
-
-  bool deleteByFacultyNameSync(String? facultyName) {
-    return deleteByIndexSync(r'facultyName', [facultyName]);
-  }
-
-  Future<List<FacultyModel?>> getAllByFacultyName(
-      List<String?> facultyNameValues) {
-    final values = facultyNameValues.map((e) => [e]).toList();
-    return getAllByIndex(r'facultyName', values);
-  }
-
-  List<FacultyModel?> getAllByFacultyNameSync(List<String?> facultyNameValues) {
-    final values = facultyNameValues.map((e) => [e]).toList();
-    return getAllByIndexSync(r'facultyName', values);
-  }
-
-  Future<int> deleteAllByFacultyName(List<String?> facultyNameValues) {
-    final values = facultyNameValues.map((e) => [e]).toList();
-    return deleteAllByIndex(r'facultyName', values);
-  }
-
-  int deleteAllByFacultyNameSync(List<String?> facultyNameValues) {
-    final values = facultyNameValues.map((e) => [e]).toList();
-    return deleteAllByIndexSync(r'facultyName', values);
-  }
-
-  Future<Id> putByFacultyName(FacultyModel object) {
-    return putByIndex(r'facultyName', object);
-  }
-
-  Id putByFacultyNameSync(FacultyModel object, {bool saveLinks = true}) {
-    return putByIndexSync(r'facultyName', object, saveLinks: saveLinks);
-  }
-
-  Future<List<Id>> putAllByFacultyName(List<FacultyModel> objects) {
-    return putAllByIndex(r'facultyName', objects);
-  }
-
-  List<Id> putAllByFacultyNameSync(List<FacultyModel> objects,
-      {bool saveLinks = true}) {
-    return putAllByIndexSync(r'facultyName', objects, saveLinks: saveLinks);
-  }
-}
-
-extension FacultyModelQueryWhereSort
-    on QueryBuilder<FacultyModel, FacultyModel, QWhere> {
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhere> anyId() {
+extension FacultyAllDetailModelQueryWhereSort
+    on QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel, QWhere> {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel, QAfterWhere>
+      anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension FacultyModelQueryWhere
-    on QueryBuilder<FacultyModel, FacultyModel, QWhereClause> {
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause> idEqualTo(Id id) {
+extension FacultyAllDetailModelQueryWhere on QueryBuilder<FacultyAllDetailModel,
+    FacultyAllDetailModel, QWhereClause> {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel, QAfterWhereClause>
+      idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -191,8 +134,8 @@ extension FacultyModelQueryWhere
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause> idNotEqualTo(
-      Id id) {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel, QAfterWhereClause>
+      idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -214,9 +157,8 @@ extension FacultyModelQueryWhere
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause> idGreaterThan(
-      Id id,
-      {bool include = false}) {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel, QAfterWhereClause>
+      idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -224,8 +166,8 @@ extension FacultyModelQueryWhere
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause> idLessThan(Id id,
-      {bool include = false}) {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel, QAfterWhereClause>
+      idLessThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -233,7 +175,8 @@ extension FacultyModelQueryWhere
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause> idBetween(
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel, QAfterWhereClause>
+      idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -248,79 +191,12 @@ extension FacultyModelQueryWhere
       ));
     });
   }
-
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause>
-      facultyNameIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'facultyName',
-        value: [null],
-      ));
-    });
-  }
-
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause>
-      facultyNameIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'facultyName',
-        lower: [null],
-        includeLower: false,
-        upper: [],
-      ));
-    });
-  }
-
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause>
-      facultyNameEqualTo(String? facultyName) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'facultyName',
-        value: [facultyName],
-      ));
-    });
-  }
-
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause>
-      facultyNameNotEqualTo(String? facultyName) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'facultyName',
-              lower: [],
-              upper: [facultyName],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'facultyName',
-              lower: [facultyName],
-              includeLower: false,
-              upper: [],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'facultyName',
-              lower: [facultyName],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'facultyName',
-              lower: [],
-              upper: [facultyName],
-              includeUpper: false,
-            ));
-      }
-    });
-  }
 }
 
-extension FacultyModelQueryFilter
-    on QueryBuilder<FacultyModel, FacultyModel, QFilterCondition> {
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameIsNull() {
+extension FacultyAllDetailModelQueryFilter on QueryBuilder<
+    FacultyAllDetailModel, FacultyAllDetailModel, QFilterCondition> {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> facultyNameIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'facultyName',
@@ -328,8 +204,8 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameIsNotNull() {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> facultyNameIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'facultyName',
@@ -337,8 +213,8 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameEqualTo(
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> facultyNameEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -351,8 +227,8 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameGreaterThan(
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> facultyNameGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -367,8 +243,8 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameLessThan(
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> facultyNameLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -383,8 +259,8 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameBetween(
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> facultyNameBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -403,8 +279,8 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameStartsWith(
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> facultyNameStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -417,8 +293,8 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameEndsWith(
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> facultyNameEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -431,7 +307,8 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+          QAfterFilterCondition>
       facultyNameContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -442,7 +319,8 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+          QAfterFilterCondition>
       facultyNameMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
@@ -453,8 +331,8 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameIsEmpty() {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> facultyNameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'facultyName',
@@ -463,8 +341,8 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameIsNotEmpty() {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> facultyNameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'facultyName',
@@ -473,7 +351,8 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition> idIsNull() {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> idIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'id',
@@ -481,8 +360,8 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      idIsNotNull() {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> idIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'id',
@@ -490,8 +369,8 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition> idEqualTo(
-      Id? value) {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> idEqualTo(Id? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -500,7 +379,8 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> idGreaterThan(
     Id? value, {
     bool include = false,
   }) {
@@ -513,7 +393,8 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition> idLessThan(
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> idLessThan(
     Id? value, {
     bool include = false,
   }) {
@@ -526,7 +407,8 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition> idBetween(
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> idBetween(
     Id? lower,
     Id? upper, {
     bool includeLower = true,
@@ -544,21 +426,83 @@ extension FacultyModelQueryFilter
   }
 }
 
-extension FacultyModelQueryObject
-    on QueryBuilder<FacultyModel, FacultyModel, QFilterCondition> {}
+extension FacultyAllDetailModelQueryObject on QueryBuilder<
+    FacultyAllDetailModel, FacultyAllDetailModel, QFilterCondition> {}
 
-extension FacultyModelQueryLinks
-    on QueryBuilder<FacultyModel, FacultyModel, QFilterCondition> {}
+extension FacultyAllDetailModelQueryLinks on QueryBuilder<FacultyAllDetailModel,
+    FacultyAllDetailModel, QFilterCondition> {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> subjects(FilterQuery<SubjectModel> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'subjects');
+    });
+  }
 
-extension FacultyModelQuerySortBy
-    on QueryBuilder<FacultyModel, FacultyModel, QSortBy> {
-  QueryBuilder<FacultyModel, FacultyModel, QAfterSortBy> sortByFacultyName() {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> subjectsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'subjects', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> subjectsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'subjects', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> subjectsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'subjects', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> subjectsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'subjects', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> subjectsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'subjects', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel,
+      QAfterFilterCondition> subjectsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'subjects', lower, includeLower, upper, includeUpper);
+    });
+  }
+}
+
+extension FacultyAllDetailModelQuerySortBy
+    on QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel, QSortBy> {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel, QAfterSortBy>
+      sortByFacultyName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'facultyName', Sort.asc);
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterSortBy>
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel, QAfterSortBy>
       sortByFacultyNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'facultyName', Sort.desc);
@@ -566,53 +510,57 @@ extension FacultyModelQuerySortBy
   }
 }
 
-extension FacultyModelQuerySortThenBy
-    on QueryBuilder<FacultyModel, FacultyModel, QSortThenBy> {
-  QueryBuilder<FacultyModel, FacultyModel, QAfterSortBy> thenByFacultyName() {
+extension FacultyAllDetailModelQuerySortThenBy
+    on QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel, QSortThenBy> {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel, QAfterSortBy>
+      thenByFacultyName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'facultyName', Sort.asc);
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterSortBy>
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel, QAfterSortBy>
       thenByFacultyNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'facultyName', Sort.desc);
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterSortBy> thenById() {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel, QAfterSortBy>
+      thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel, QAfterSortBy>
+      thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 }
 
-extension FacultyModelQueryWhereDistinct
-    on QueryBuilder<FacultyModel, FacultyModel, QDistinct> {
-  QueryBuilder<FacultyModel, FacultyModel, QDistinct> distinctByFacultyName(
-      {bool caseSensitive = true}) {
+extension FacultyAllDetailModelQueryWhereDistinct
+    on QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel, QDistinct> {
+  QueryBuilder<FacultyAllDetailModel, FacultyAllDetailModel, QDistinct>
+      distinctByFacultyName({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'facultyName', caseSensitive: caseSensitive);
     });
   }
 }
 
-extension FacultyModelQueryProperty
-    on QueryBuilder<FacultyModel, FacultyModel, QQueryProperty> {
-  QueryBuilder<FacultyModel, int, QQueryOperations> idProperty() {
+extension FacultyAllDetailModelQueryProperty on QueryBuilder<
+    FacultyAllDetailModel, FacultyAllDetailModel, QQueryProperty> {
+  QueryBuilder<FacultyAllDetailModel, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<FacultyModel, String?, QQueryOperations> facultyNameProperty() {
+  QueryBuilder<FacultyAllDetailModel, String?, QQueryOperations>
+      facultyNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'facultyName');
     });

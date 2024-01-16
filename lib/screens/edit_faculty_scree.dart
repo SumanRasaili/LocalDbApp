@@ -4,22 +4,32 @@ import 'package:firestoreapp/model/Faculty/faculty_services.dart';
 import 'package:firestoreapp/utils/validators.dart';
 import 'package:firestoreapp/widgets/buttons_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddFacultyPage extends StatefulWidget {
-  const AddFacultyPage({super.key});
+class EditFacultyPage extends ConsumerStatefulWidget {
+  final String facName;
+  final int id;
+  const EditFacultyPage({super.key, required this.facName, required this.id});
 
   @override
-  State<AddFacultyPage> createState() => _AddFacultyPageState();
+  ConsumerState<EditFacultyPage> createState() => _EditFacultyPageState();
 }
 
-class _AddFacultyPageState extends State<AddFacultyPage> {
+class _EditFacultyPageState extends ConsumerState<EditFacultyPage> {
   TextEditingController facultyController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    facultyController.text = widget.facName;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Faculty"),
+        title: const Text("Edit Faculty"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -40,13 +50,14 @@ class _AddFacultyPageState extends State<AddFacultyPage> {
                 DrawerButtons(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      await FacultyServices.createFaculty(
-                              fac: FacultyModel(
+                      await FacultyServices.editFaculty(
+                              fa: FacultyModel(
+                                  id: widget.id,
                                   facultyName: facultyController.text))
                           .then((value) => Navigator.pop(context));
                     }
                   },
-                  name: "Save Faculty",
+                  name: "Edit Faculty",
                 ),
               ],
             ),

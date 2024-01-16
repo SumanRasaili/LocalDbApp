@@ -1,9 +1,12 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firestoreapp/model/Faculty/faculty_db_model.dart';
 import 'package:firestoreapp/model/Students/students_db_model.dart';
 import 'package:firestoreapp/model/Subjects/subject_db_model.dart';
 import 'package:firestoreapp/model/Teacher/teacher_db_model.dart';
+import 'package:firestoreapp/model/facultyalldetails_db_model.dart';
 import 'package:firestoreapp/screens/splash_page.dart';
 import 'package:firestoreapp/utils/colors.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
@@ -17,9 +20,12 @@ Future<void> main() async {
     FacultyModelSchema,
     SubjectModelSchema,
     StudentModelSchema,
+    FacultyAllDetailModelSchema,
     TeacherModelSchema
   ], directory: dir.path, inspector: true);
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(ProviderScope(
+      child: DevicePreview(
+          enabled: !kReleaseMode, builder: (context) => const MyApp())));
 }
 
 class MyApp extends StatelessWidget {
@@ -30,6 +36,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      useInheritedMediaQuery: true,
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           useMaterial3: true,

@@ -1,4 +1,5 @@
 import 'package:firestoreapp/main.dart';
+import 'package:firestoreapp/model/Faculty/faculty_db_model.dart';
 import 'package:firestoreapp/model/Subjects/subject_db_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
@@ -6,7 +7,8 @@ import 'package:isar/isar.dart';
 final subProvider = Provider<SubjectServices>((ref) => SubjectServices());
 
 class SubjectServices {
-  static Future addSubjects({required SubjectModel subj}) async {
+  static Future addSubjects(
+      {required SubjectModel subj, required FacultyModel fac}) async {
     try {
       await isar.writeTxn(() => isar.subjectModels.put(subj));
     } catch (e) {
@@ -18,10 +20,8 @@ class SubjectServices {
     yield* isar.subjectModels.where().watch(fireImmediately: true);
   }
 
-  Future<List<SubjectModel>?> getAllSubjects() async {
+  Future<List<SubjectModel>> getAllSubjects() async {
     try {
-      print("get called");
-      print("dddd ${await isar.subjectModels.where().findAll()}");
       return await isar.subjectModels.where().findAll();
     } catch (e) {
       rethrow;

@@ -20,7 +20,7 @@ class TeacherServices {
     yield* isar.teacherModels.where().watch(fireImmediately: true);
   }
 
-  Future<List<TeacherModel>?> getAllTeachers() async {
+  Future<List<TeacherModel>> getAllTeachers() async {
     try {
       print("get called");
       print("dddd ${await isar.teacherModels.where().findAll()}");

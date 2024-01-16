@@ -17,8 +17,13 @@ const SubjectModelSchema = CollectionSchema(
   name: r'SubjectModel',
   id: 5276353613396957069,
   properties: {
-    r'subjectName': PropertySchema(
+    r'facultyId': PropertySchema(
       id: 0,
+      name: r'facultyId',
+      type: IsarType.string,
+    ),
+    r'subjectName': PropertySchema(
+      id: 1,
       name: r'subjectName',
       type: IsarType.string,
     )
@@ -28,7 +33,21 @@ const SubjectModelSchema = CollectionSchema(
   deserialize: _subjectModelDeserialize,
   deserializeProp: _subjectModelDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'subjectName': IndexSchema(
+      id: -2702852998942163311,
+      name: r'subjectName',
+      unique: true,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'subjectName',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    )
+  },
   links: {},
   embeddedSchemas: {},
   getId: _subjectModelGetId,
@@ -44,6 +63,12 @@ int _subjectModelEstimateSize(
 ) {
   var bytesCount = offsets.last;
   {
+    final value = object.facultyId;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
     final value = object.subjectName;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -58,7 +83,8 @@ void _subjectModelSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.subjectName);
+  writer.writeString(offsets[0], object.facultyId);
+  writer.writeString(offsets[1], object.subjectName);
 }
 
 SubjectModel _subjectModelDeserialize(
@@ -68,8 +94,9 @@ SubjectModel _subjectModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = SubjectModel(
+    facultyId: reader.readStringOrNull(offsets[0]),
     id: id,
-    subjectName: reader.readStringOrNull(offsets[0]),
+    subjectName: reader.readStringOrNull(offsets[1]),
   );
   return object;
 }
@@ -82,6 +109,8 @@ P _subjectModelDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
+      return (reader.readStringOrNull(offset)) as P;
+    case 1:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -99,6 +128,62 @@ List<IsarLinkBase<dynamic>> _subjectModelGetLinks(SubjectModel object) {
 void _subjectModelAttach(
     IsarCollection<dynamic> col, Id id, SubjectModel object) {
   object.id = id;
+}
+
+extension SubjectModelByIndex on IsarCollection<SubjectModel> {
+  Future<SubjectModel?> getBySubjectName(String? subjectName) {
+    return getByIndex(r'subjectName', [subjectName]);
+  }
+
+  SubjectModel? getBySubjectNameSync(String? subjectName) {
+    return getByIndexSync(r'subjectName', [subjectName]);
+  }
+
+  Future<bool> deleteBySubjectName(String? subjectName) {
+    return deleteByIndex(r'subjectName', [subjectName]);
+  }
+
+  bool deleteBySubjectNameSync(String? subjectName) {
+    return deleteByIndexSync(r'subjectName', [subjectName]);
+  }
+
+  Future<List<SubjectModel?>> getAllBySubjectName(
+      List<String?> subjectNameValues) {
+    final values = subjectNameValues.map((e) => [e]).toList();
+    return getAllByIndex(r'subjectName', values);
+  }
+
+  List<SubjectModel?> getAllBySubjectNameSync(List<String?> subjectNameValues) {
+    final values = subjectNameValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'subjectName', values);
+  }
+
+  Future<int> deleteAllBySubjectName(List<String?> subjectNameValues) {
+    final values = subjectNameValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'subjectName', values);
+  }
+
+  int deleteAllBySubjectNameSync(List<String?> subjectNameValues) {
+    final values = subjectNameValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'subjectName', values);
+  }
+
+  Future<Id> putBySubjectName(SubjectModel object) {
+    return putByIndex(r'subjectName', object);
+  }
+
+  Id putBySubjectNameSync(SubjectModel object, {bool saveLinks = true}) {
+    return putByIndexSync(r'subjectName', object, saveLinks: saveLinks);
+  }
+
+  Future<List<Id>> putAllBySubjectName(List<SubjectModel> objects) {
+    return putAllByIndex(r'subjectName', objects);
+  }
+
+  List<Id> putAllBySubjectNameSync(List<SubjectModel> objects,
+      {bool saveLinks = true}) {
+    return putAllByIndexSync(r'subjectName', objects, saveLinks: saveLinks);
+  }
 }
 
 extension SubjectModelQueryWhereSort
@@ -178,10 +263,231 @@ extension SubjectModelQueryWhere
       ));
     });
   }
+
+  QueryBuilder<SubjectModel, SubjectModel, QAfterWhereClause>
+      subjectNameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'subjectName',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<SubjectModel, SubjectModel, QAfterWhereClause>
+      subjectNameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'subjectName',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<SubjectModel, SubjectModel, QAfterWhereClause>
+      subjectNameEqualTo(String? subjectName) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'subjectName',
+        value: [subjectName],
+      ));
+    });
+  }
+
+  QueryBuilder<SubjectModel, SubjectModel, QAfterWhereClause>
+      subjectNameNotEqualTo(String? subjectName) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'subjectName',
+              lower: [],
+              upper: [subjectName],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'subjectName',
+              lower: [subjectName],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'subjectName',
+              lower: [subjectName],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'subjectName',
+              lower: [],
+              upper: [subjectName],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
 }
 
 extension SubjectModelQueryFilter
     on QueryBuilder<SubjectModel, SubjectModel, QFilterCondition> {
+  QueryBuilder<SubjectModel, SubjectModel, QAfterFilterCondition>
+      facultyIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'facultyId',
+      ));
+    });
+  }
+
+  QueryBuilder<SubjectModel, SubjectModel, QAfterFilterCondition>
+      facultyIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'facultyId',
+      ));
+    });
+  }
+
+  QueryBuilder<SubjectModel, SubjectModel, QAfterFilterCondition>
+      facultyIdEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'facultyId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SubjectModel, SubjectModel, QAfterFilterCondition>
+      facultyIdGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'facultyId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SubjectModel, SubjectModel, QAfterFilterCondition>
+      facultyIdLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'facultyId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SubjectModel, SubjectModel, QAfterFilterCondition>
+      facultyIdBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'facultyId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SubjectModel, SubjectModel, QAfterFilterCondition>
+      facultyIdStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'facultyId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SubjectModel, SubjectModel, QAfterFilterCondition>
+      facultyIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'facultyId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SubjectModel, SubjectModel, QAfterFilterCondition>
+      facultyIdContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'facultyId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SubjectModel, SubjectModel, QAfterFilterCondition>
+      facultyIdMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'facultyId',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SubjectModel, SubjectModel, QAfterFilterCondition>
+      facultyIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'facultyId',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<SubjectModel, SubjectModel, QAfterFilterCondition>
+      facultyIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'facultyId',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<SubjectModel, SubjectModel, QAfterFilterCondition> idIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -415,6 +721,18 @@ extension SubjectModelQueryLinks
 
 extension SubjectModelQuerySortBy
     on QueryBuilder<SubjectModel, SubjectModel, QSortBy> {
+  QueryBuilder<SubjectModel, SubjectModel, QAfterSortBy> sortByFacultyId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'facultyId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<SubjectModel, SubjectModel, QAfterSortBy> sortByFacultyIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'facultyId', Sort.desc);
+    });
+  }
+
   QueryBuilder<SubjectModel, SubjectModel, QAfterSortBy> sortBySubjectName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'subjectName', Sort.asc);
@@ -431,6 +749,18 @@ extension SubjectModelQuerySortBy
 
 extension SubjectModelQuerySortThenBy
     on QueryBuilder<SubjectModel, SubjectModel, QSortThenBy> {
+  QueryBuilder<SubjectModel, SubjectModel, QAfterSortBy> thenByFacultyId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'facultyId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<SubjectModel, SubjectModel, QAfterSortBy> thenByFacultyIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'facultyId', Sort.desc);
+    });
+  }
+
   QueryBuilder<SubjectModel, SubjectModel, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -459,6 +789,13 @@ extension SubjectModelQuerySortThenBy
 
 extension SubjectModelQueryWhereDistinct
     on QueryBuilder<SubjectModel, SubjectModel, QDistinct> {
+  QueryBuilder<SubjectModel, SubjectModel, QDistinct> distinctByFacultyId(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'facultyId', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<SubjectModel, SubjectModel, QDistinct> distinctBySubjectName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -472,6 +809,12 @@ extension SubjectModelQueryProperty
   QueryBuilder<SubjectModel, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<SubjectModel, String?, QQueryOperations> facultyIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'facultyId');
     });
   }
 

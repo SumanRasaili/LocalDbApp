@@ -1,5 +1,5 @@
-import 'package:firestoreapp/model/Faculty/faculty_db_model.dart';
-import 'package:firestoreapp/model/Faculty/faculty_services.dart';
+import 'package:firestoreapp/model/faculty_all_details_services.dart';
+import 'package:firestoreapp/model/facultyalldetails_db_model.dart';
 import 'package:firestoreapp/screens/detail_page.dart';
 import 'package:firestoreapp/widgets/home_drawer_widget.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final data = ref.watch(facapiProvider);
+    final data = ref.watch(facalldetailapiProvider);
     return Scaffold(
       drawer: const HomeDrawerWidget(),
       appBar: AppBar(
@@ -27,7 +27,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: StreamBuilder<List<FacultyModel>>(
+        child: StreamBuilder<List<FacultyAllDetailModel>>(
           builder: (context, snapshot) {
             return GridView.builder(
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -42,7 +42,9 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (BuildContext context) {
-                            return const DetailPage();
+                            return DetailPage(
+                              facDetail: snapshot.data![index].subjects,
+                            );
                           },
                         ),
                       );
