@@ -19,7 +19,7 @@ class _AddFacultyPageState extends State<AddFacultyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Faculty"),
+        title: const Text("Add Courses"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -30,7 +30,7 @@ class _AddFacultyPageState extends State<AddFacultyPage> {
               children: [
                 CustomTextField(
                   validator: (input) => Validators.isRequired(input),
-                  labelText: "Faculty Name",
+                  labelText: "Course Name",
                   controller: facultyController,
                   isRequired: true,
                 ),
@@ -41,8 +41,8 @@ class _AddFacultyPageState extends State<AddFacultyPage> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       await FacultyServices.createFaculty(
-                              fac: FacultyModel(
-                                  facultyName: facultyController.text))
+                              fac: CourseModel(
+                                  courseName: facultyController.text))
                           .then((value) => Navigator.pop(context));
                     }
                   },

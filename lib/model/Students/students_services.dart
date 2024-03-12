@@ -1,4 +1,5 @@
 import 'package:firestoreapp/main.dart';
+import 'package:firestoreapp/model/Faculty/faculty_db_model.dart';
 import 'package:firestoreapp/model/Students/students_db_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
@@ -6,9 +7,15 @@ import 'package:isar/isar.dart';
 final stdProvider = Provider<StudentsServices>((ref) => StudentsServices());
 
 class StudentsServices {
-  static Future addStudents({required StudentModel sm}) async {
+  static Future addStudents(
+      {required StudentModel stud, required CourseModel course}) async {
     try {
-      await isar.writeTxn(() => isar.studentModels.put(sm));
+      course.students.add(stud);
+      await isar.writeTxn(() async {
+        await isar.studentModels.put(stud);
+        await isar.courseModels.put(course);
+        await course.students.save();
+      });
     } catch (e) {
       print("error while creating students $e");
     }
@@ -38,6 +45,4 @@ class StudentsServices {
       rethrow;
     }
   }
-
-
 }

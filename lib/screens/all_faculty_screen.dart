@@ -19,7 +19,7 @@ class _AllFacultyPageState extends ConsumerState<AllFacultyPage> {
         appBar: AppBar(
           title: const Text("All Faculties Page"),
         ),
-        body: StreamBuilder<List<FacultyModel>>(
+        body: StreamBuilder<List<CourseModel>>(
             stream: data.getStream(),
             builder: (context, snapshot) {
               return ListView.builder(
@@ -35,12 +35,12 @@ class _AllFacultyPageState extends ConsumerState<AllFacultyPage> {
                             builder: (context) => EditFacultyPage(
                                   id: snapshot.data?[index].id ?? 0,
                                   facName:
-                                      snapshot.data?[index].facultyName ?? "",
+                                      snapshot.data?[index].courseName ?? "",
                                 )));
                       },
                       child: Card(
                         child: ListTile(
-                          title: Text(snapshot.data?[index].facultyName ?? "-"),
+                          title: Text(snapshot.data?[index].courseName ?? "-"),
                           trailing: IconButton(
                               onPressed: () async {
                                 await ref.read(facapiProvider).deleteFaculty(

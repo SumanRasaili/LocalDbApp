@@ -1,11 +1,8 @@
-
 import 'package:firestoreapp/screens/add_faculty.dart';
 import 'package:firestoreapp/screens/add_students.dart';
-import 'package:firestoreapp/screens/add_subjects.dart';
 import 'package:firestoreapp/screens/add_teacher_screen.dart';
 import 'package:firestoreapp/screens/all_faculty_screen.dart';
 import 'package:firestoreapp/screens/all_students_page.dart';
-import 'package:firestoreapp/screens/all_subjects_page.dart';
 import 'package:firestoreapp/screens/all_teachers.dart';
 import 'package:firestoreapp/widgets/buttons_widget.dart';
 import 'package:flutter/material.dart';
@@ -25,25 +22,13 @@ class HomeDrawerWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DrawerButtons(
-                  name: "Add Faculty",
+                  name: "Add Courses",
                   onPressed: () {
                     Navigator.pop(context);
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (BuildContext context) {
                           return const AddFacultyPage();
-                        },
-                      ),
-                    );
-                  }),
-              DrawerButtons(
-                  name: "Add Subjects",
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return const AddSubjectsPage();
                         },
                       ),
                     );
@@ -73,7 +58,7 @@ class HomeDrawerWidget extends StatelessWidget {
                     );
                   }),
               DrawerButtons(
-                  name: "All Faculties",
+                  name: "All Courses",
                   onPressed: () {
                     Navigator.pop(context);
                     Navigator.of(context).push(
@@ -92,18 +77,6 @@ class HomeDrawerWidget extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (BuildContext context) {
                           return const AllStudentsPage();
-                        },
-                      ),
-                    );
-                  }),
-              DrawerButtons(
-                  name: "All Subjects",
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return const AllSubjectsPage();
                         },
                       ),
                     );

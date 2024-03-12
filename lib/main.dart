@@ -1,9 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:firestoreapp/model/Faculty/faculty_db_model.dart';
 import 'package:firestoreapp/model/Students/students_db_model.dart';
-import 'package:firestoreapp/model/Subjects/subject_db_model.dart';
 import 'package:firestoreapp/model/Teacher/teacher_db_model.dart';
-import 'package:firestoreapp/model/facultyalldetails_db_model.dart';
 import 'package:firestoreapp/screens/splash_page.dart';
 import 'package:firestoreapp/utils/colors.dart';
 import 'package:flutter/foundation.dart';
@@ -16,13 +14,9 @@ late Isar isar;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final dir = await getApplicationDocumentsDirectory();
-  isar = await Isar.open([
-    FacultyModelSchema,
-    SubjectModelSchema,
-    StudentModelSchema,
-    FacultyAllDetailModelSchema,
-    TeacherModelSchema
-  ], directory: dir.path, inspector: true);
+  isar = await Isar.open(
+      [CourseModelSchema, StudentModelSchema, TeacherModelSchema],
+      directory: dir.path, inspector: true);
   runApp(ProviderScope(
       child: DevicePreview(
           enabled: !kReleaseMode, builder: (context) => const MyApp())));

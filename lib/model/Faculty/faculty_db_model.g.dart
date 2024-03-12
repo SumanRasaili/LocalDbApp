@@ -9,56 +9,69 @@ part of 'faculty_db_model.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetFacultyModelCollection on Isar {
-  IsarCollection<FacultyModel> get facultyModels => this.collection();
+extension GetCourseModelCollection on Isar {
+  IsarCollection<CourseModel> get courseModels => this.collection();
 }
 
-const FacultyModelSchema = CollectionSchema(
-  name: r'FacultyModel',
-  id: -6302961449486729081,
+const CourseModelSchema = CollectionSchema(
+  name: r'CourseModel',
+  id: 414938306419406862,
   properties: {
-    r'facultyName': PropertySchema(
+    r'courseName': PropertySchema(
       id: 0,
-      name: r'facultyName',
+      name: r'courseName',
       type: IsarType.string,
     )
   },
-  estimateSize: _facultyModelEstimateSize,
-  serialize: _facultyModelSerialize,
-  deserialize: _facultyModelDeserialize,
-  deserializeProp: _facultyModelDeserializeProp,
+  estimateSize: _courseModelEstimateSize,
+  serialize: _courseModelSerialize,
+  deserialize: _courseModelDeserialize,
+  deserializeProp: _courseModelDeserializeProp,
   idName: r'id',
   indexes: {
-    r'facultyName': IndexSchema(
-      id: -2783939385663226620,
-      name: r'facultyName',
+    r'courseName': IndexSchema(
+      id: -1503113066792696319,
+      name: r'courseName',
       unique: true,
       replace: false,
       properties: [
         IndexPropertySchema(
-          name: r'facultyName',
+          name: r'courseName',
           type: IndexType.hash,
           caseSensitive: true,
         )
       ],
     )
   },
-  links: {},
+  links: {
+    r'teachers': LinkSchema(
+      id: 2972146125542238697,
+      name: r'teachers',
+      target: r'TeacherModel',
+      single: true,
+    ),
+    r'students': LinkSchema(
+      id: -4907661906599051594,
+      name: r'students',
+      target: r'StudentModel',
+      single: false,
+    )
+  },
   embeddedSchemas: {},
-  getId: _facultyModelGetId,
-  getLinks: _facultyModelGetLinks,
-  attach: _facultyModelAttach,
+  getId: _courseModelGetId,
+  getLinks: _courseModelGetLinks,
+  attach: _courseModelAttach,
   version: '3.1.0+1',
 );
 
-int _facultyModelEstimateSize(
-  FacultyModel object,
+int _courseModelEstimateSize(
+  CourseModel object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
   {
-    final value = object.facultyName;
+    final value = object.courseName;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -66,29 +79,29 @@ int _facultyModelEstimateSize(
   return bytesCount;
 }
 
-void _facultyModelSerialize(
-  FacultyModel object,
+void _courseModelSerialize(
+  CourseModel object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.facultyName);
+  writer.writeString(offsets[0], object.courseName);
 }
 
-FacultyModel _facultyModelDeserialize(
+CourseModel _courseModelDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = FacultyModel(
-    facultyName: reader.readStringOrNull(offsets[0]),
+  final object = CourseModel(
+    courseName: reader.readStringOrNull(offsets[0]),
     id: id,
   );
   return object;
 }
 
-P _facultyModelDeserializeProp<P>(
+P _courseModelDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -102,87 +115,91 @@ P _facultyModelDeserializeProp<P>(
   }
 }
 
-Id _facultyModelGetId(FacultyModel object) {
+Id _courseModelGetId(CourseModel object) {
   return object.id ?? Isar.autoIncrement;
 }
 
-List<IsarLinkBase<dynamic>> _facultyModelGetLinks(FacultyModel object) {
-  return [];
+List<IsarLinkBase<dynamic>> _courseModelGetLinks(CourseModel object) {
+  return [object.teachers, object.students];
 }
 
-void _facultyModelAttach(
-    IsarCollection<dynamic> col, Id id, FacultyModel object) {
+void _courseModelAttach(
+    IsarCollection<dynamic> col, Id id, CourseModel object) {
   object.id = id;
+  object.teachers
+      .attach(col, col.isar.collection<TeacherModel>(), r'teachers', id);
+  object.students
+      .attach(col, col.isar.collection<StudentModel>(), r'students', id);
 }
 
-extension FacultyModelByIndex on IsarCollection<FacultyModel> {
-  Future<FacultyModel?> getByFacultyName(String? facultyName) {
-    return getByIndex(r'facultyName', [facultyName]);
+extension CourseModelByIndex on IsarCollection<CourseModel> {
+  Future<CourseModel?> getByCourseName(String? courseName) {
+    return getByIndex(r'courseName', [courseName]);
   }
 
-  FacultyModel? getByFacultyNameSync(String? facultyName) {
-    return getByIndexSync(r'facultyName', [facultyName]);
+  CourseModel? getByCourseNameSync(String? courseName) {
+    return getByIndexSync(r'courseName', [courseName]);
   }
 
-  Future<bool> deleteByFacultyName(String? facultyName) {
-    return deleteByIndex(r'facultyName', [facultyName]);
+  Future<bool> deleteByCourseName(String? courseName) {
+    return deleteByIndex(r'courseName', [courseName]);
   }
 
-  bool deleteByFacultyNameSync(String? facultyName) {
-    return deleteByIndexSync(r'facultyName', [facultyName]);
+  bool deleteByCourseNameSync(String? courseName) {
+    return deleteByIndexSync(r'courseName', [courseName]);
   }
 
-  Future<List<FacultyModel?>> getAllByFacultyName(
-      List<String?> facultyNameValues) {
-    final values = facultyNameValues.map((e) => [e]).toList();
-    return getAllByIndex(r'facultyName', values);
+  Future<List<CourseModel?>> getAllByCourseName(
+      List<String?> courseNameValues) {
+    final values = courseNameValues.map((e) => [e]).toList();
+    return getAllByIndex(r'courseName', values);
   }
 
-  List<FacultyModel?> getAllByFacultyNameSync(List<String?> facultyNameValues) {
-    final values = facultyNameValues.map((e) => [e]).toList();
-    return getAllByIndexSync(r'facultyName', values);
+  List<CourseModel?> getAllByCourseNameSync(List<String?> courseNameValues) {
+    final values = courseNameValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'courseName', values);
   }
 
-  Future<int> deleteAllByFacultyName(List<String?> facultyNameValues) {
-    final values = facultyNameValues.map((e) => [e]).toList();
-    return deleteAllByIndex(r'facultyName', values);
+  Future<int> deleteAllByCourseName(List<String?> courseNameValues) {
+    final values = courseNameValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'courseName', values);
   }
 
-  int deleteAllByFacultyNameSync(List<String?> facultyNameValues) {
-    final values = facultyNameValues.map((e) => [e]).toList();
-    return deleteAllByIndexSync(r'facultyName', values);
+  int deleteAllByCourseNameSync(List<String?> courseNameValues) {
+    final values = courseNameValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'courseName', values);
   }
 
-  Future<Id> putByFacultyName(FacultyModel object) {
-    return putByIndex(r'facultyName', object);
+  Future<Id> putByCourseName(CourseModel object) {
+    return putByIndex(r'courseName', object);
   }
 
-  Id putByFacultyNameSync(FacultyModel object, {bool saveLinks = true}) {
-    return putByIndexSync(r'facultyName', object, saveLinks: saveLinks);
+  Id putByCourseNameSync(CourseModel object, {bool saveLinks = true}) {
+    return putByIndexSync(r'courseName', object, saveLinks: saveLinks);
   }
 
-  Future<List<Id>> putAllByFacultyName(List<FacultyModel> objects) {
-    return putAllByIndex(r'facultyName', objects);
+  Future<List<Id>> putAllByCourseName(List<CourseModel> objects) {
+    return putAllByIndex(r'courseName', objects);
   }
 
-  List<Id> putAllByFacultyNameSync(List<FacultyModel> objects,
+  List<Id> putAllByCourseNameSync(List<CourseModel> objects,
       {bool saveLinks = true}) {
-    return putAllByIndexSync(r'facultyName', objects, saveLinks: saveLinks);
+    return putAllByIndexSync(r'courseName', objects, saveLinks: saveLinks);
   }
 }
 
-extension FacultyModelQueryWhereSort
-    on QueryBuilder<FacultyModel, FacultyModel, QWhere> {
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhere> anyId() {
+extension CourseModelQueryWhereSort
+    on QueryBuilder<CourseModel, CourseModel, QWhere> {
+  QueryBuilder<CourseModel, CourseModel, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension FacultyModelQueryWhere
-    on QueryBuilder<FacultyModel, FacultyModel, QWhereClause> {
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause> idEqualTo(Id id) {
+extension CourseModelQueryWhere
+    on QueryBuilder<CourseModel, CourseModel, QWhereClause> {
+  QueryBuilder<CourseModel, CourseModel, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -191,7 +208,7 @@ extension FacultyModelQueryWhere
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause> idNotEqualTo(
+  QueryBuilder<CourseModel, CourseModel, QAfterWhereClause> idNotEqualTo(
       Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -214,8 +231,7 @@ extension FacultyModelQueryWhere
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause> idGreaterThan(
-      Id id,
+  QueryBuilder<CourseModel, CourseModel, QAfterWhereClause> idGreaterThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -224,7 +240,7 @@ extension FacultyModelQueryWhere
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<CourseModel, CourseModel, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -233,7 +249,7 @@ extension FacultyModelQueryWhere
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause> idBetween(
+  QueryBuilder<CourseModel, CourseModel, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -249,21 +265,20 @@ extension FacultyModelQueryWhere
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause>
-      facultyNameIsNull() {
+  QueryBuilder<CourseModel, CourseModel, QAfterWhereClause> courseNameIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'facultyName',
+        indexName: r'courseName',
         value: [null],
       ));
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause>
-      facultyNameIsNotNull() {
+  QueryBuilder<CourseModel, CourseModel, QAfterWhereClause>
+      courseNameIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'facultyName',
+        indexName: r'courseName',
         lower: [null],
         includeLower: false,
         upper: [],
@@ -271,45 +286,45 @@ extension FacultyModelQueryWhere
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause>
-      facultyNameEqualTo(String? facultyName) {
+  QueryBuilder<CourseModel, CourseModel, QAfterWhereClause> courseNameEqualTo(
+      String? courseName) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'facultyName',
-        value: [facultyName],
+        indexName: r'courseName',
+        value: [courseName],
       ));
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterWhereClause>
-      facultyNameNotEqualTo(String? facultyName) {
+  QueryBuilder<CourseModel, CourseModel, QAfterWhereClause>
+      courseNameNotEqualTo(String? courseName) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'facultyName',
+              indexName: r'courseName',
               lower: [],
-              upper: [facultyName],
+              upper: [courseName],
               includeUpper: false,
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'facultyName',
-              lower: [facultyName],
+              indexName: r'courseName',
+              lower: [courseName],
               includeLower: false,
               upper: [],
             ));
       } else {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'facultyName',
-              lower: [facultyName],
+              indexName: r'courseName',
+              lower: [courseName],
               includeLower: false,
               upper: [],
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'facultyName',
+              indexName: r'courseName',
               lower: [],
-              upper: [facultyName],
+              upper: [courseName],
               includeUpper: false,
             ));
       }
@@ -317,42 +332,42 @@ extension FacultyModelQueryWhere
   }
 }
 
-extension FacultyModelQueryFilter
-    on QueryBuilder<FacultyModel, FacultyModel, QFilterCondition> {
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameIsNull() {
+extension CourseModelQueryFilter
+    on QueryBuilder<CourseModel, CourseModel, QFilterCondition> {
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      courseNameIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'facultyName',
+        property: r'courseName',
       ));
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameIsNotNull() {
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      courseNameIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'facultyName',
+        property: r'courseName',
       ));
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameEqualTo(
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      courseNameEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'facultyName',
+        property: r'courseName',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameGreaterThan(
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      courseNameGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -360,15 +375,15 @@ extension FacultyModelQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'facultyName',
+        property: r'courseName',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameLessThan(
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      courseNameLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -376,15 +391,15 @@ extension FacultyModelQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'facultyName',
+        property: r'courseName',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameBetween(
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      courseNameBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -393,7 +408,7 @@ extension FacultyModelQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'facultyName',
+        property: r'courseName',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -403,77 +418,77 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameStartsWith(
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      courseNameStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'facultyName',
+        property: r'courseName',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameEndsWith(
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      courseNameEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'facultyName',
+        property: r'courseName',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      courseNameContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'facultyName',
+        property: r'courseName',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      courseNameMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'facultyName',
+        property: r'courseName',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameIsEmpty() {
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      courseNameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'facultyName',
+        property: r'courseName',
         value: '',
       ));
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      facultyNameIsNotEmpty() {
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      courseNameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'facultyName',
+        property: r'courseName',
         value: '',
       ));
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition> idIsNull() {
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition> idIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'id',
@@ -481,8 +496,7 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition>
-      idIsNotNull() {
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition> idIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'id',
@@ -490,7 +504,7 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition> idEqualTo(
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition> idEqualTo(
       Id? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -500,7 +514,7 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition> idGreaterThan(
     Id? value, {
     bool include = false,
   }) {
@@ -513,7 +527,7 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition> idLessThan(
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition> idLessThan(
     Id? value, {
     bool include = false,
   }) {
@@ -526,7 +540,7 @@ extension FacultyModelQueryFilter
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterFilterCondition> idBetween(
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition> idBetween(
     Id? lower,
     Id? upper, {
     bool includeLower = true,
@@ -544,77 +558,150 @@ extension FacultyModelQueryFilter
   }
 }
 
-extension FacultyModelQueryObject
-    on QueryBuilder<FacultyModel, FacultyModel, QFilterCondition> {}
+extension CourseModelQueryObject
+    on QueryBuilder<CourseModel, CourseModel, QFilterCondition> {}
 
-extension FacultyModelQueryLinks
-    on QueryBuilder<FacultyModel, FacultyModel, QFilterCondition> {}
-
-extension FacultyModelQuerySortBy
-    on QueryBuilder<FacultyModel, FacultyModel, QSortBy> {
-  QueryBuilder<FacultyModel, FacultyModel, QAfterSortBy> sortByFacultyName() {
+extension CourseModelQueryLinks
+    on QueryBuilder<CourseModel, CourseModel, QFilterCondition> {
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition> teachers(
+      FilterQuery<TeacherModel> q) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'facultyName', Sort.asc);
+      return query.link(q, r'teachers');
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterSortBy>
-      sortByFacultyNameDesc() {
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      teachersIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'facultyName', Sort.desc);
+      return query.linkLength(r'teachers', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition> students(
+      FilterQuery<StudentModel> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'students');
+    });
+  }
+
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      studentsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'students', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      studentsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'students', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      studentsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'students', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      studentsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'students', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      studentsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'students', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<CourseModel, CourseModel, QAfterFilterCondition>
+      studentsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'students', lower, includeLower, upper, includeUpper);
     });
   }
 }
 
-extension FacultyModelQuerySortThenBy
-    on QueryBuilder<FacultyModel, FacultyModel, QSortThenBy> {
-  QueryBuilder<FacultyModel, FacultyModel, QAfterSortBy> thenByFacultyName() {
+extension CourseModelQuerySortBy
+    on QueryBuilder<CourseModel, CourseModel, QSortBy> {
+  QueryBuilder<CourseModel, CourseModel, QAfterSortBy> sortByCourseName() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'facultyName', Sort.asc);
+      return query.addSortBy(r'courseName', Sort.asc);
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterSortBy>
-      thenByFacultyNameDesc() {
+  QueryBuilder<CourseModel, CourseModel, QAfterSortBy> sortByCourseNameDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'facultyName', Sort.desc);
+      return query.addSortBy(r'courseName', Sort.desc);
+    });
+  }
+}
+
+extension CourseModelQuerySortThenBy
+    on QueryBuilder<CourseModel, CourseModel, QSortThenBy> {
+  QueryBuilder<CourseModel, CourseModel, QAfterSortBy> thenByCourseName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'courseName', Sort.asc);
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterSortBy> thenById() {
+  QueryBuilder<CourseModel, CourseModel, QAfterSortBy> thenByCourseNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'courseName', Sort.desc);
+    });
+  }
+
+  QueryBuilder<CourseModel, CourseModel, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<FacultyModel, FacultyModel, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<CourseModel, CourseModel, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 }
 
-extension FacultyModelQueryWhereDistinct
-    on QueryBuilder<FacultyModel, FacultyModel, QDistinct> {
-  QueryBuilder<FacultyModel, FacultyModel, QDistinct> distinctByFacultyName(
+extension CourseModelQueryWhereDistinct
+    on QueryBuilder<CourseModel, CourseModel, QDistinct> {
+  QueryBuilder<CourseModel, CourseModel, QDistinct> distinctByCourseName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'facultyName', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'courseName', caseSensitive: caseSensitive);
     });
   }
 }
 
-extension FacultyModelQueryProperty
-    on QueryBuilder<FacultyModel, FacultyModel, QQueryProperty> {
-  QueryBuilder<FacultyModel, int, QQueryOperations> idProperty() {
+extension CourseModelQueryProperty
+    on QueryBuilder<CourseModel, CourseModel, QQueryProperty> {
+  QueryBuilder<CourseModel, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<FacultyModel, String?, QQueryOperations> facultyNameProperty() {
+  QueryBuilder<CourseModel, String?, QQueryOperations> courseNameProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'facultyName');
+      return query.addPropertyName(r'courseName');
     });
   }
 }

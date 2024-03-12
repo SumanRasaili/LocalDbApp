@@ -1,4 +1,5 @@
 import 'package:firestoreapp/main.dart';
+import 'package:firestoreapp/model/Faculty/faculty_db_model.dart';
 import 'package:firestoreapp/model/Teacher/teacher_db_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
@@ -8,9 +9,15 @@ final teachProv = Provider<TeacherServices>((ref) {
 });
 
 class TeacherServices {
-  static Future addTeacher({required TeacherModel teach}) async {
+  static Future addTeacher(
+      {required TeacherModel teach, required CourseModel course}) async {
     try {
-      await isar.writeTxn(() => isar.teacherModels.put(teach));
+      course.teachers.value = teach;
+      await isar.writeTxn(() async {
+        await isar.teacherModels.put(teach);
+        await isar.courseModels.put(course);
+        await course.teachers.save();
+      });
     } catch (e) {
       print("error while creating teacher $e");
     }

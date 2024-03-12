@@ -29,7 +29,7 @@ class _EditFacultyPageState extends ConsumerState<EditFacultyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Edit Faculty"),
+        title: const Text("Edit Course"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -40,7 +40,7 @@ class _EditFacultyPageState extends ConsumerState<EditFacultyPage> {
               children: [
                 CustomTextField(
                   validator: (input) => Validators.isRequired(input),
-                  labelText: "Faculty Name",
+                  labelText: "Course Name",
                   controller: facultyController,
                   isRequired: true,
                 ),
@@ -51,13 +51,13 @@ class _EditFacultyPageState extends ConsumerState<EditFacultyPage> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       await FacultyServices.editFaculty(
-                              fa: FacultyModel(
+                              fa: CourseModel(
                                   id: widget.id,
-                                  facultyName: facultyController.text))
+                                  courseName: facultyController.text))
                           .then((value) => Navigator.pop(context));
                     }
                   },
-                  name: "Edit Faculty",
+                  name: "Edit Course",
                 ),
               ],
             ),
